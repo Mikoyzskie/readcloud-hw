@@ -2,7 +2,7 @@
 
 ### ~ React + TypeScript + Vite + Node JS + Express JS + MongoDB
 
-#### ~ React Query
+#### ~ React Query, Swagger
 
 Available commands:
 -------------------
