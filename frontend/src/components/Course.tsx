@@ -45,7 +45,7 @@ export default function Course({ _id, title, description, imageUrl, users }:Prop
         <div className="fixed inset-0 w-full h-full bg-[rgba(0,0,0,0.5)] border-0 overflow-auto flex items-center justify-center hover:cursor-pointer p-4">
           <div className="flex flex-col bg-white rounded-lg p-4 relative gap-5">
             {isLoading 
-             && <div className="w-[400px] h-[200px] bg-slate-300 animate-pulse" />
+             && <div className="max-w-[400px] max-h-[200px] h-full w-full bg-slate-300 animate-pulse" />
             }
             <img src={imageUrl} alt="Course Banner" className="rounded-lg" onLoad={() => setIsLoading(false)} />
             <div className="">
