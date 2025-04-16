@@ -1,5 +1,5 @@
 import { BiGroup } from "react-icons/bi";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import { IoCloseCircle } from "react-icons/io5";
 import {type Users} from "../types/types"
 type Properties = {
@@ -22,19 +22,22 @@ export default function Course({ _id, title, description, imageUrl, users }:Prop
     if(enrolled){
       setEnrollees(enrolled)
     }
-    setShowDetails(true)
-  },[_id, users])
+  },[_id, users]);
+
+  useEffect(()=>{
+    getEnrolled();
+  },[getEnrolled])
 
   return (
     <>
-      <div onClick={getEnrolled} className="py-2 flex justify-between items-center border-b border-gray-300 w-full">
+      <div onClick={() => { setShowDetails(true) }} className="py-2 flex justify-between items-center border-b border-gray-300 w-full">
         <div className="flex flex-col gap-1 items-start">
           <p className="font-bold">{title}</p>
           <p className="text-xs font-semibold text-slate-400">{description}</p>
         </div>
         <div className="flex items-center gap-1">
           <BiGroup size={25} />
-          <p className="font-bold">23</p>
+          <p className="font-bold">{enrollees.length}</p>
         </div>
       </div>
       {showDetails &&
