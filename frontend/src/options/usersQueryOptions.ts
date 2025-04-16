@@ -1,9 +1,9 @@
 import { queryOptions } from "@tanstack/react-query";
 import { getUsers } from "../api/getUsers";
 
-export default function usersQueryOptions() {
+export default function usersQueryOptions(id:string) {
  return queryOptions({
-  queryKey: ["users"],
-  queryFn: getUsers,
+  queryKey: ["users", id],
+  queryFn: ()=>getUsers(id),
  });
 }

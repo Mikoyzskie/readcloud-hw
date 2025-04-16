@@ -1,32 +1,24 @@
 import { BiGroup } from "react-icons/bi";
-import {useCallback, useEffect, useState} from "react";
+import {useState} from "react";
 import { IoCloseCircle } from "react-icons/io5";
-import {type Users} from "../types/types"
+
+import { useQuery } from "@tanstack/react-query";
+import usersQueryOptions from "../options/usersQueryOptions"
+import Loading from "./Loading";
 type Properties = {
   _id: string;
   title: string;
   description: string;
   imageUrl: string;
-  users?: Users[];
 }
 
-export default function Course({ _id, title, description, imageUrl, users }:Properties) {
+export default function Course({ _id, title, description, imageUrl }:Properties) {
   
   const [showDetails, setShowDetails] = useState<boolean>(false)
-  const [enrollees, setEnrollees] = useState<Users[]>([]);
+
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  const getEnrolled = useCallback(()=>{
-    const enrolled = users?.filter((user) => user.enrolledCourses.includes(_id))
-
-    if(enrolled){
-      setEnrollees(enrolled)
-    }
-  },[_id, users]);
-
-  useEffect(()=>{
-    getEnrolled();
-  },[getEnrolled])
+  const { data, isFetching } = useQuery(usersQueryOptions(_id))
 
   return (
     <>
@@ -37,7 +29,7 @@ export default function Course({ _id, title, description, imageUrl, users }:Prop
         </div>
         <div className="flex items-center gap-1">
           <BiGroup size={25} />
-          <p className="font-bold">{enrollees.length}</p>
+          <p className="font-bold">{data?.length}</p>
         </div>
       </div>
       {showDetails &&
@@ -55,8 +47,8 @@ export default function Course({ _id, title, description, imageUrl, users }:Prop
             <div className="flex flex-col items-start">
               <p className="font-semibold text-sm border-b border-slate-300 w-full text-start pb-2">Enrolled</p>
               <div className="flex flex-col w-full items-start">
-                {
-                  enrollees.map((enrollee) => (
+                {isFetching ? <Loading/> :
+                  data?.map((enrollee) => (
                     <div className="flex justify-around p-2 w-full items-center border-b border-slate-300">
                       <p>{enrollee.name}</p>
                       <p className="text-sm">{enrollee.email}</p>

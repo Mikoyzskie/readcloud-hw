@@ -107,7 +107,7 @@ router.get(
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
-    const user = await Users.findById(req.params.id);
+    const user = await Users.find({ enrolledCourses: req.params.id });
     if (user) {
       res.status(200).json(user);
     } else {

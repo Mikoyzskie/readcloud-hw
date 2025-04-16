@@ -1,14 +1,12 @@
 import './App.css';
 import Loading from "./components/Loading";
 import Course from "./components/Course";
-import { useQueries } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import coursesQueryOptions from "./options/coursesQueryOptions"
-import usersQueryOptions from "./options/usersQueryOptions"
-
 
 function App() {
   
-  const [{ data, error, isFetching }, users] = useQueries({ queries: [coursesQueryOptions(), usersQueryOptions()]});
+  const { data, error, isFetching } = useQuery(coursesQueryOptions());
 
   if(error){
     alert("Something went wrong");
@@ -29,7 +27,7 @@ function App() {
           <div className=''>
             {isFetching
               ? <Loading /> 
-              : (data?.map((course, index) => <Course key={index} {...course} users={users.data}/>))
+              : (data?.map((course, index) => <Course key={index} {...course}/>))
             }
           </div>
           
